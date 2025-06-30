@@ -86,20 +86,13 @@ class PokemonListViewModel @Inject constructor(
 
     fun loadCapturedPokemon() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, error = null) }
             getCapturedPokemonUseCase.invoke().onSuccess { capturedList ->
                 _state.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        capturedList = capturedList
-                    )
+                    state.copy(capturedList = capturedList)
                 }
             }.onFailure { exception ->
                 _state.update {
-                    it.copy(
-                        isLoading = false,
-                        error = exception.message ?: "Failed to load captured Pokemon"
-                    )
+                    it.copy(error = exception.message ?: "Failed to load captured Pokemon")
                 }
             }
         }

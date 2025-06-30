@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -70,11 +72,7 @@ fun PokemonListContent(
         contentAlignment = Alignment.Center
     ) {
         if (state.isLoading) {
-            Text(
-                text = "Loading...",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            CircularProgressIndicator()
+            LoadingScreen()
         } else if (state.error != null) {
             Text(text = "Error: ${state.error}")
         } else {
@@ -304,24 +302,30 @@ fun ReleaseAnimation(onAnimationEnd: () -> Unit) {
 }
 
 @Composable
-fun AnimatedLoadingTextWithIndicator() {
-    var dotCount by remember { mutableStateOf(1) }
-
-    // Looping dot animation every 500ms
-    LaunchedEffect(Unit) {
-        while (true) {
-            kotlinx.coroutines.delay(500)
-            dotCount = (dotCount % 3) + 1
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Loading...",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            CircularProgressIndicator(
+                strokeWidth = 4.dp,
+                modifier = Modifier.size(40.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
-    }
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = "Loading" + ".".repeat(dotCount),
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Spacer(modifier = Modifier.size(8.dp))
-        CircularProgressIndicator()
     }
 }
 
