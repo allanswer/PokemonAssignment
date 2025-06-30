@@ -103,7 +103,7 @@ fun PokemonDetailScreen(
                     .fillMaxWidth(),
             ) {
                 // Evolution Info
-                state.evolvesFromPokemon?.let { evolvesFrom ->
+                state.pokemonDetails?.evolvesFromName?.let { evolvesFrom ->
                     Row(
                         modifier = Modifier
                             .padding(vertical = 8.dp)
