@@ -9,6 +9,7 @@ import com.example.test.domain.GetPokemonListUseCase
 import com.example.test.domain.ReleasePokemonUseCase
 import com.example.test.domain.model.PokemonItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +26,10 @@ data class PokemonListViewState(
     val capturedList: List<PokemonItem> = emptyList(),
     val groupedPokemonByTypes: Map<String, List<PokemonItem>> = emptyMap(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val totalPokemonCount: Int = 0,
+    val currentLoadedCount: Int = 0
+
 )
 
 @HiltViewModel

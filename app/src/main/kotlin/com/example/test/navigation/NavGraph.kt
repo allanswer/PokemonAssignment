@@ -17,9 +17,7 @@ fun AppNavHost(navController: NavHostController) {
             PokemonListScreen(navController = navController)
         }
         composable(route = Screen.PokemonDetail.route) { backStackEntry ->
-            val pokemonName = backStackEntry.arguments?.getString("pokemonName") ?: ""
             PokemonDetailScreen(
-                pokemonName = pokemonName,
                 navController = navController
             )
         }

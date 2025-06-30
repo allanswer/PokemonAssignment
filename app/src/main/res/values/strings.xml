@@ -2,5 +2,6 @@
     <string name="app_name">Test</string>
     <string name="evolves_from">Evolves from</string>
     <string name="back_button_description">Back</string>
+    <string name="my_pocket">My Pocket</string>
 
 </resources>

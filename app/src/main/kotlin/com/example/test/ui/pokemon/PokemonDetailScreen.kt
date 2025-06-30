@@ -35,7 +35,6 @@ import com.example.test.R
 
 @Composable
 fun PokemonDetailScreen(
-    pokemonName: String?,
     navController: NavController,
     viewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
@@ -104,38 +103,40 @@ fun PokemonDetailScreen(
                     .fillMaxWidth(),
             ) {
                 // Evolution Info
-                Row(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column {
-                        Text(
-                            text = stringResource(R.string.evolves_from),
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                        Text(
-                            text = state.pokemonDetails?.evolvesFromName ?: "",
-                            style = MaterialTheme.typography.bodyMedium,
+                state.evolvesFromPokemon?.let { evolvesFrom ->
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column {
+                            Text(
+                                text = stringResource(R.string.evolves_from),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                            Text(
+                                text = state.pokemonDetails?.evolvesFromName ?: "",
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        AsyncImage(
+                            model = state.pokemonDetails?.evolvesFromImageUrl,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .size(48.dp)
+                                .clickable {
+                                    state.pokemonDetails?.evolvesFromName?.let { evolvesFromName ->
+                                        navController.navigate("pokemonDetail/$evolvesFromName")
+                                    }
+                                },
+                            contentScale = ContentScale.Crop
                         )
                     }
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    AsyncImage(
-                        model = state.pokemonDetails?.evolvesFromImageUrl,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .size(48.dp)
-                            .clickable {
-                                state.pokemonDetails?.evolvesFromName?.let { evolvesFromName ->
-                                    navController.navigate("pokemonDetail/$evolvesFromName")
-                                }
-                            },
-                        contentScale = ContentScale.Crop
-                    )
                 }
 
                 // Description
@@ -163,13 +164,15 @@ fun PokemonDetailsActionRow(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = { navController.popBackStack() }) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = "Back",
+            tint = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier
+                .size(24.dp) // or 32.dp depending on your style
+                .clickable { navController.popBackStack() }
+        )
+
 
         Spacer(modifier = Modifier.weight(1f))
 

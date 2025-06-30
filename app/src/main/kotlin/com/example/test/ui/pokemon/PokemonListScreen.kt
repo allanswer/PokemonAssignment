@@ -3,6 +3,7 @@ package com.example.test.ui.pokemon
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues // Added for LazyColumn
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,7 +35,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -66,6 +70,10 @@ fun PokemonListContent(
         contentAlignment = Alignment.Center
     ) {
         if (state.isLoading) {
+            Text(
+                text = "Loading...",
+                style = MaterialTheme.typography.bodyLarge
+            )
             CircularProgressIndicator()
         } else if (state.error != null) {
             Text(text = "Error: ${state.error}")
@@ -77,36 +85,44 @@ fun PokemonListContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
-                item {
-                    // My Pocket (Captured)
-                    if (state.capturedList.isNotEmpty()) {
-                        Row {
-                            Text(
-                                text = "My Pocket",
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(vertical = 8.dp)
-                            )
-
-                            Spacer(modifier = Modifier.weight(1f))
-
-                            Text(
-                                text = "${state.capturedList.size}",
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(vertical = 8.dp)
-                            )
-                        }
-
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            // contentPadding = PaddingValues(horizontal = 8.dp)
+                if (state.capturedList.isNotEmpty()) {
+                    stickyHeader {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.background)
+                                .padding(vertical = 8.dp)
+                                .zIndex(1f)
                         ) {
-                            items(state.capturedList) { pokemon ->
-                                PokemonCard(
-                                    pokemon = pokemon,
-                                    isFromMyPocket = true,
-                                    eventHandler = eventHandler
-                                ) {
-                                    navController.navigate("pokemonDetail/${pokemon.name}")
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.my_pocket),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = "${state.capturedList.size}",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+
+                            LazyRow(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            ) {
+                                items(state.capturedList) { pokemon ->
+                                    PokemonCard(
+                                        pokemon = pokemon,
+                                        isFromMyPocket = true,
+                                        eventHandler = eventHandler
+                                    ) {
+                                        navController.navigate("pokemonDetail/${pokemon.name}")
+                                    }
                                 }
                             }
                         }
@@ -170,7 +186,7 @@ fun PokemonCard(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .clickable { onClick() } // Entire card (excluding icon) navigates
+                .clickable { onClick() }
                 .padding(8.dp)
         ) {
             AsyncImage(
@@ -286,6 +302,29 @@ fun ReleaseAnimation(onAnimationEnd: () -> Unit) {
         tint = Color.Gray
     )
 }
+
+@Composable
+fun AnimatedLoadingTextWithIndicator() {
+    var dotCount by remember { mutableStateOf(1) }
+
+    // Looping dot animation every 500ms
+    LaunchedEffect(Unit) {
+        while (true) {
+            kotlinx.coroutines.delay(500)
+            dotCount = (dotCount % 3) + 1
+        }
+    }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = "Loading" + ".".repeat(dotCount),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        CircularProgressIndicator()
+    }
+}
+
 
 
 
