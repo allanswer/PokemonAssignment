@@ -20,8 +20,8 @@ data class PokemonEntity(
 fun PokemonEntity.toPokemonItem() = PokemonItem(
     name = name.replaceFirstChar { it.uppercase() },
     imageUrl = imageUrl,
-    types = types
-    // Description and evolvesFrom are not in PokemonItem yet
+    types = types,
+    id = id,
 )
 
 fun PokemonEntity.toPokemonDetails() = PokemonDetails(

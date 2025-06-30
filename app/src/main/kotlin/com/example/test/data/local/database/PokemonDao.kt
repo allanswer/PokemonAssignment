@@ -24,6 +24,6 @@ interface PokemonDao {
     @Query("SELECT * FROM captured_pokemon ORDER BY capturedAt DESC")
     suspend fun getAllCaptured(): List<CapturedPokemonEntity>
 
-    @Query("DELETE FROM captured_pokemon WHERE name = :name")
-    suspend fun deleteCapturedPokemon(name: String)
+    @Query("DELETE FROM captured_pokemon WHERE captureId = :id")
+    suspend fun deleteCapturedPokemon(id: Int)
 }

@@ -3,7 +3,7 @@ package com.example.test.domain.model
 data class PokemonItem(
     val name: String,
     val imageUrl: String,
-    // val isCaptured: Boolean = false,
+    val id: Int,
     val types: List<String> = emptyList(),
     val capturedAt: Long = 0L
 )

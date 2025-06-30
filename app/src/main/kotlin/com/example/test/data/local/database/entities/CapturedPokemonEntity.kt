@@ -17,5 +17,6 @@ fun CapturedPokemonEntity.toPokemonItem(): PokemonItem {
         name = name,
         imageUrl = imageUrl,
         capturedAt = capturedAt,
+        id = captureId
     )
 }

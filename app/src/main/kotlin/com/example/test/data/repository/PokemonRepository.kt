@@ -98,8 +98,8 @@ class PokemonRepository @Inject constructor(
         return pokemonDao.getAllCaptured().map { it.toPokemonItem() }
     }
 
-    suspend fun releasePokemon(pokemonItem: PokemonItem): List<PokemonItem> {
-        pokemonDao.deleteCapturedPokemon(pokemonItem.name)
+    suspend fun releasePokemon(id: Int): List<PokemonItem> {
+        pokemonDao.deleteCapturedPokemon(id)
         return pokemonDao.getAllCaptured().map { it.toPokemonItem() }
     }
 }

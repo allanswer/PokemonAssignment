@@ -112,7 +112,7 @@ class PokemonListViewModel @Inject constructor(
 
     fun releasePokemon(pokemon: PokemonItem) {
         viewModelScope.launch {
-            releasePokemonUseCase(pokemon).onSuccess {
+            releasePokemonUseCase(pokemon.id).onSuccess {
                 _state.update { state ->
                     state.copy(capturedList = it)
                 }

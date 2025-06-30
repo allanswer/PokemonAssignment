@@ -7,9 +7,9 @@ import jakarta.inject.Inject
 class ReleasePokemonUseCase @Inject constructor(
     private val repository: PokemonRepository
 ) {
-    suspend operator fun invoke(pokemon: PokemonItem): Result<List<PokemonItem>> {
+    suspend operator fun invoke(id: Int): Result<List<PokemonItem>> {
         return runCatching {
-            repository.releasePokemon(pokemon)
+            repository.releasePokemon(id)
         }
     }
 }
