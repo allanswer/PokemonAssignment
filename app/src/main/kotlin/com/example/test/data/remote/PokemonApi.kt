@@ -1,5 +1,8 @@
-package com.example.test.data
+package com.example.test.data.remote
 
+import com.example.test.data.model.PokemonDetailResponse
+import com.example.test.data.model.PokemonListResponse
+import com.example.test.data.model.PokemonSpeciesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

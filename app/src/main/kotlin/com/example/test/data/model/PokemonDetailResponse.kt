@@ -1,20 +1,6 @@
-package com.example.test.data
+package com.example.test.data.model
 
 import com.squareup.moshi.Json
-
-// --- Data Classes for API Responses ---
-
-data class PokemonListResponse(
-    val count: Int,
-    val next: String?,
-    val previous: String?,
-    val results: List<PokemonListItem>
-)
-
-data class PokemonListItem(
-    val name: String,
-    val url: String
-)
 
 data class PokemonDetailResponse(
     val id: Int,
@@ -75,8 +61,8 @@ data class PokemonSprites(
     @Json(name = "front_default") val frontDefault: String?,
     @Json(name = "back_default") val backDefault: String?,
     @Json(name = "front_shiny") val frontShiny: String?,
-    @Json(name = "back_shiny") val backShiny: String?
-    // Add `other` and `versions` if needed
+    @Json(name = "back_shiny") val backShiny: String?,
+    @Json(name = "other") val other: OtherSprites?
 )
 
 data class Cries(
@@ -176,3 +162,10 @@ data class Genus(
     @Json(name = "language") val language: NamedApiResource
 )
 
+data class OtherSprites(
+    @Json(name = "official-artwork") val officialArtwork: OfficialArtwork?
+)
+
+data class OfficialArtwork(
+    @Json(name = "front_default") val frontDefault: String?
+)

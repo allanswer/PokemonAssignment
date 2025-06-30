@@ -6,13 +6,14 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 @ViewModelScoped
-class GetPokemonListUseCase @Inject constructor(
+class CapturePokemonUseCase @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) {
-    suspend operator fun invoke(limit: Int?): Result<List<PokemonItem>> {
+    suspend operator fun invoke(pokemonItem: PokemonItem): Result<List<PokemonItem>> {
         return try {
-            val pokemonList = pokemonRepository.getPokemonList(limit = limit).sortedBy { it.name }
-            Result.success(pokemonList)
+            val capturedPokemons = pokemonRepository.capturePokemon(pokemonItem = pokemonItem)
+            // Timber.d("Pokemon captured: ${pokemonItem.name}")
+            Result.success(capturedPokemons)
         } catch (e: Exception) {
             Result.failure(e)
         }

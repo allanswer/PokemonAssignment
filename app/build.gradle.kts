@@ -69,4 +69,18 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
+
+    // Room dependencies
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    // Optional Room extensions
+    testImplementation(libs.androidx.room.testing)
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.room.rxjava3)
+    implementation(libs.androidx.room.guava)
+
+    //Coil
+    implementation(libs.coil.compose) // Use the latest version
 }
